@@ -79,3 +79,4 @@ runs:
     - ${{ inputs.json-file }}
     - ${{ inputs.remediate == 'true' && '--remediate' || '' }}
     - ${{ inputs.generate-git-report == 'true' && '--generate-git-report' || '' }}
+    - --no-exit-error
