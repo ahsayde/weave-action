@@ -70,7 +70,5 @@ runs:
     - ${{ inputs.commit }}
     - --sarif
     - ${{ inputs.sarif-file }}
-    - --json
-    - ${{ inputs.json-file }}
     - ${{ inputs.remediate == 'true' && '--remediate' || '' }}
     - ${{ inputs.generate-git-report == 'true' && '--generate-git-report' || '' }}
