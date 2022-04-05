@@ -1,0 +1,57 @@
+name: weave-action
+author: weave.works
+description: identify violations in your IaC files
+
+inputs:
+  path:
+    description: path to resources kustomization
+    required: true
+    
+  helm-values-file:
+    description: path to helm values file
+    required: false
+  
+  policy-path:
+    description: path to policies kustomization
+    required: true
+
+  policy-helm-values-file:
+    description: path to policies helm values file
+    required: false
+
+  token:
+    description: github token
+    default: ${{ github.token }}
+    required: false
+
+  remediate:
+    description: auto remediate resources if possible
+    required: false
+
+  generate-git-report:
+    description: auto remediate resources if possible
+    default: "true"
+    required: false
+
+
+branding:
+  color: blue
+  icon: shield
+
+runs:
+  using: docker
+  image: docker://magalixcorp/weave-validator:test
+  args:
+    - weave-validator
+    - --path
+    - ${{ inputs.path }}
+    - --helm-values-file
+    - ${{ inputs.helm-values-file }}
+    - --policy-path
+    - ${{ inputs.policy-path }}
+    - --policy-helm-values-file
+    - ${{ inputs.policy-helm-values-file }}
+    - --git-repo-token
+    - ${{ inputs.token }}
+    - ${{ inputs.remediate == 'true' && '--remediate' || '' }}
+    - ${{ inputs.generate-git-report == 'true' && '--generate-git-report' || '' }}
