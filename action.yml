@@ -68,9 +68,9 @@ runs:
     - ${{ inputs.token }}
     - --git-repo-sha
     - ${{ inputs.commit }}
-    - --sarif-file
+    - --sarif
     - ${{ inputs.sarif-file }}
-    - --json-file
+    - --json
     - ${{ inputs.json-file }}
     - ${{ inputs.remediate == 'true' && '--remediate' || '' }}
     - ${{ inputs.generate-git-report == 'true' && '--generate-git-report' || '' }}
