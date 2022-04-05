@@ -28,9 +28,13 @@ inputs:
     description: github token
     default: ${{ github.token }}
     required: false
-    
+  
   sarif-file:
     description: export result in sarif format
+    required: false
+ 
+  sast-file:
+    description: export result in sast format
     required: false
   
   json-file:
@@ -45,7 +49,6 @@ inputs:
     description: auto remediate resources if possible
     default: "true"
     required: false
-
 
 branding:
   color: blue
@@ -70,5 +73,9 @@ runs:
     - ${{ inputs.commit }}
     - --sarif
     - ${{ inputs.sarif-file }}
+    - --sast
+    - ${{ inputs.sast-file }}
+    - --json
+    - ${{ inputs.json-file }}
     - ${{ inputs.remediate == 'true' && '--remediate' || '' }}
     - ${{ inputs.generate-git-report == 'true' && '--generate-git-report' || '' }}
