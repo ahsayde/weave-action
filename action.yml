@@ -19,6 +19,11 @@ inputs:
     description: path to policies helm values file
     required: false
 
+  commit:
+    description: current commit sha
+    default: ${{ github.event.pull_request.head.sha || github.sha }}
+    required: false
+
   token:
     description: github token
     default: ${{ github.token }}
@@ -53,5 +58,7 @@ runs:
     - ${{ inputs.policy-helm-values-file }}
     - --git-repo-token
     - ${{ inputs.token }}
+    - --git-repo-sha
+    - ${{ inputs.commit }}
     - ${{ inputs.remediate == 'true' && '--remediate' || '' }}
     - ${{ inputs.generate-git-report == 'true' && '--generate-git-report' || '' }}
