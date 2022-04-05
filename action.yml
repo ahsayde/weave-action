@@ -28,6 +28,14 @@ inputs:
     description: github token
     default: ${{ github.token }}
     required: false
+    
+  sarif-file:
+    description: export result in sarif format
+    required: false
+  
+  json-file:
+    description: export result in json format
+    required: false
 
   remediate:
     description: auto remediate resources if possible
@@ -60,5 +68,9 @@ runs:
     - ${{ inputs.token }}
     - --git-repo-sha
     - ${{ inputs.commit }}
+    - --sarif-file
+    - ${{ inputs.sarif-file }}
+    - --json-file
+    - ${{ inputs.json-file }}
     - ${{ inputs.remediate == 'true' && '--remediate' || '' }}
     - ${{ inputs.generate-git-report == 'true' && '--generate-git-report' || '' }}
