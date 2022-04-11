@@ -81,5 +81,5 @@ runs:
     - --sarif ${{ inputs.sarif-file }}
     - --sast ${{ inputs.sast-file }}
     - --json ${{ inputs.json-file }}
-    - ${{ inputs.remediate && --remediate || }}
-    - ${{ inputs.generate-git-report && --generate-git-report || }}
+    - ${{ inputs.remediate && '--remediate' || }}
+    - ${{ inputs.generate-git-report && '--generate-git-report' || }}
