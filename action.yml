@@ -19,20 +19,25 @@ inputs:
     description: path to policies helm values file
     required: false
 
-  # branch:
-  #   description: branch name
-  #   default: ${{ github.head_ref || github.ref }}
-  #   required: false
-  
-  # commit:
-  #   description: commit SHA
-  #   default: ${{ github.event.pull_request.head.sha || github.sha }}
-  #   required: false
+  repository:
+    description: repository
+    default: ${{ github.repository }}
+    required: false
 
-  # token:
-  #   description: github token
-  #   default: ${{ github.token }}
-  #   required: false
+  branch:
+    description: branch name
+    default: ${{ github.head_ref || github.ref }}
+    required: false
+  
+  commit:
+    description: commit SHA
+    default: ${{ github.event.pull_request.head.sha || github.sha }}
+    required: false
+
+  token:
+    description: github token
+    default: ${{ github.token }}
+    required: false
 
   sarif-file:
     description: export result in sarif format
@@ -60,13 +65,6 @@ branding:
   icon: shield
 
 runs:
-  env:
-    WEAVE_REPO_PROVIDER: github
-    WEAVE_REPO_BRANCH: ${{ github.head_ref || github.ref }}
-    WEAVE_REPO_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
-    WEAVE_REPO_TOKEN: ${{ github.token }}
-
-
   using: docker
   image: docker://magalixcorp/weave-validator:dev
   args:
@@ -75,13 +73,13 @@ runs:
     - --helm-values-file ${{ inputs.helm-values-file }}
     - --policy-path ${{ inputs.policy-path }}
     - --policy-helm-values-file ${{ inputs.policy-helm-values-file }}
-    # - --git-repo-provider github
-    # - --git-repo-url ${{}}
-    # - --git-repo-token ${{ inputs.token }}
-    # - --git-repo-branch ${{ inputs.branch }}
+    - --git-repo-provider github
+    - --git-repo-url ${{ inputs.repository }}
+    - --git-repo-token ${{ inputs.token }}
+    - --git-repo-branch ${{ inputs.branch }}
     - --git-repo-sha ${{ inputs.commit }}
     - --sarif ${{ inputs.sarif-file }}
     - --sast ${{ inputs.sast-file }}
     - --json ${{ inputs.json-file }}
-    - --remediate
-    - --generate-git-report
+    - ${{ inputs.remediate && --remediate || }}
+    - ${{ inputs.generate-git-report && --generate-git-report || }}
